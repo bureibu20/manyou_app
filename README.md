@@ -67,4 +67,3 @@ $ git push heroku-18 master
 $ heroku run rails db:migrate
 ```
 
-_______________________________________________________________________
