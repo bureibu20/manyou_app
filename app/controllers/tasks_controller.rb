@@ -3,11 +3,13 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    if params[:sort_expired]
-      @tasks = Task.all.order(expired_at: :desc).page(params[:page])
-    elsif
-      @tasks = Task.all.order(created_at: :desc).page(params[:page])
-    end
+    @tasks = Task.all
+    @tasks = @tasks.order(expired_at: :desc) if params[:sort_expired]
+
+    # 検索機能はここに書く
+
+
+    @tasks = @tasks.page(params[:page])
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -68,6 +70,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :content, :expired_at)
+      params.require(:task).permit(:title, :content, :expired_at, :status)
     end
 end

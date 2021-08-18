@@ -26,6 +26,11 @@
     <%= form.date_field :expired_at %>
   </div>
 
+  <div class="field">
+    <%= form.label :"ステータス" %>
+    <%= form.select :status, Task.statuses.keys, class: "form-control" %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
