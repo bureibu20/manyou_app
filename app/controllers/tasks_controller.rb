@@ -5,11 +5,15 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all
     @tasks = @tasks.order(expired_at: :desc) if params[:sort_expired]
-
-    # 検索機能はここに書く
-
-
     @tasks = @tasks.page(params[:page])
+
+    if params[:search_title].present? && params[:search_status].present?
+      @tasks = Task.all.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page])
+    elsif params[:search_title].present?
+      @tasks = Task.all.search_title(params[:search_title]).page(params[:page])
+    elsif params[:search_status].present?
+      @tasks = Task.all.search_status(params[:search_status]).page(params[:page])
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
