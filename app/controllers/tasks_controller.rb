@@ -3,9 +3,16 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
-    @tasks = @tasks.order(expired_at: :desc) if params[:sort_expired]
-    @tasks = @tasks.page(params[:page]).per(5)
+
+    if params[:sort_expired]
+      @tasks = Task.order(expired_at: :desc).page(params[:page]).per(5)
+    elsif params[:sort_priority]
+      @tasks = Task.order(priority: :desc).page(params[:page]).per(5)
+    elsif
+      @tasks = Task.all
+      @tasks = @tasks.page(params[:page]).per(5)
+    end  
+    
 
     if params[:search_title].present? && params[:search_status].present?
       @tasks = Task.all.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page])
