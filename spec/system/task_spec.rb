@@ -49,4 +49,32 @@ RSpec.describe 'タスク管理機能', type: :system do
        end
      end
   end
+  describe '検索機能' do
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        fill_in 'search_title', with: 'test'
+        click_button '検索'
+        expect(page).to have_content 'test'
+      end
+    end
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        visit tasks_path
+        select '未着手', from: 'search_status'
+        click_button '検索'
+        expect(page).to have_content '未着手'
+      end
+    end
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+        visit tasks_path
+        fill_in 'search_title', with: 'test'
+        select '未着手', from: 'search_status'
+        click_button '検索'
+        expect(page).to have_content 'test'
+        expect(page).to have_content '未着手'
+      end
+    end
+  end
 end
