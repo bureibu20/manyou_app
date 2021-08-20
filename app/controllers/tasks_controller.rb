@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all
     @tasks = @tasks.order(expired_at: :desc) if params[:sort_expired]
-    @tasks = @tasks.page(params[:page])
+    @tasks = @tasks.page(params[:page]).per(5)
 
     if params[:search_title].present? && params[:search_status].present?
       @tasks = Task.all.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page])

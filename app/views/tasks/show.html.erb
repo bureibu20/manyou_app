@@ -10,5 +10,15 @@
   <%= @task.content %>
 </p>
 
+<p>
+  <strong>終了期限：</strong>
+  <%= @task.expired_at %>
+</p>
+
+<p>
+  <strong>ステータス：</strong>
+  <%= @task.status %>
+</p>
+
 <%= link_to 'Edit', edit_task_path(@task) %> |
 <%= link_to 'Back', tasks_path %>

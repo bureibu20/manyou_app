@@ -2,9 +2,9 @@
 <br>
 <%= form_with(model: @task, method: :get, local: true, ) do |form| %>
   <%= form.label :'タスク名' %>
-  <%= form.text_field :search_title, placeholder:"何かお探しですか？" %>
+  <%= form.text_field :search_title, placeholder:"タスク検索" %>
   <%= form.label :'ステータス' %>
-  <%= form.select :search_status, Task.statuses.keys.to_a, {}, include_blank: "選択して下さい" %> 
+  <%= form.select :search_status, Task.statuses.keys.to_a, { include_blank: '選択してください'}, class: 'form-control' %>
   
   <%= form.submit '検索' , name: 'search', class:"btn btn-warning" %>
   <%= link_to 'Task一覧を確認する', tasks_path %>
@@ -14,7 +14,9 @@
 
 <p id="notice"><%= notice %></p>
 <div>
-  <%= link_to '新規投稿', new_task_path %>
+  <button type="button" class="btn btn-outline-primary">
+    <%= link_to '新規投稿', new_task_path %>
+  </button>
 </div>
 <br>
 
