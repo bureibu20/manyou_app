@@ -34,11 +34,16 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    if @task.user == current_user
+      render "edit"
+    else
+      redirect_to tasks_path
+    end
   end
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     respond_to do |format|
       if @task.save
@@ -49,6 +54,11 @@ class TasksController < ApplicationController
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm
+    @task = current_user.tasks.build(task_params)
+    render :new if @task.invalid?
   end
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
@@ -81,6 +91,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :content, :expired_at, :status, :priority)
+      params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user)
     end
 end

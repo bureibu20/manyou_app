@@ -1,0 +1,27 @@
+
+<h2>以下の内容で作成しますか？</h2>
+<%= form_with(model: @task, local: true) do |form| %>
+  <%= form.hidden_field :title %>
+  <p>タスク名:<%= @task.title %></p>
+
+  <%= form.hidden_field :content %>
+  <p>内容:<%= @task.content %></p>
+
+  <%= form.hidden_field :expired_at %>
+  <p>終了期限:<%= @task.expired_at %></p>
+
+  <%= form.hidden_field :status %>
+  <p>ステータス:<%= @task.status %></p>
+
+  <%= form.hidden_field :priority %>
+  <p>優先順位:<%= @task.priority %></p>
+
+  <% @task.label_ids.each do |id| %>
+    <%= form.hidden_field :label_ids, multiple: true, value: id %>
+  <% end %>
+  <% @task.labels.each do |label| %>
+    <p>ラベル:<%= label.name %></p>
+  <% end %>
+  <%= form.submit '作成する' %>
+  <%= form.submit '戻る', name: 'back' %>
+<% end %>
