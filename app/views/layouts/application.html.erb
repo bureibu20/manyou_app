@@ -13,6 +13,7 @@
     <% flash.each do |key, value| %>
       <%= content_tag(:div, value, class: "#{key}") %>
     <% end %>
+    <br>
     <% if logged_in? %>
       <%= link_to "Profile", user_path(current_user.id), class: 'btn btn-default' %>
       <%= link_to "Logout", session_path(current_user.id), method: :delete, class: 'btn btn-default' %>
