@@ -4,7 +4,7 @@ FactoryBot.define do
     email {'admin_email@gmail.com'}
     password {'admin_pass'}
     password_confirmation {'admin_pass'}
-    admin {true}
+    admin { true }
   end
 
   factory :general_user, class: User do
@@ -12,6 +12,6 @@ FactoryBot.define do
     email {'general_email@gmail.com'}
     password {'general_pass'}
     password_confirmation {'general_pass'}
-    admin {false}
+    admin { false }
   end
 end
