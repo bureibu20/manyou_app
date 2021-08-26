@@ -1,4 +1,4 @@
-# User.create!(name: "kenya", email: "kenya@gmail.com", password: "123456", password_confirmation: "123456", admin: true)
+User.create!(name: "kenya", email: "kenya@gmail.com", password: "123456", password_confirmation: "123456", admin: true)
 
 9.times do |n|
   name = Faker::Games::Pokemon.name
