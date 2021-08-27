@@ -5,21 +5,21 @@ class TasksController < ApplicationController
   def index
 
     if params[:sort_expired]
-      @tasks = Task.order(expired_at: :desc).page(params[:page]).per(5)
+      @tasks = current_user.tasks.order(expired_at: :desc).page(params[:page]).per(5)
     elsif params[:sort_priority]
-      @tasks = Task.order(priority: :desc).page(params[:page]).per(5)
+      @tasks = current_user.tasks.order(priority: :desc).page(params[:page]).per(5)
     elsif
-      @tasks = Task.all
+      @tasks = current_user.tasks.all
       @tasks = @tasks.page(params[:page]).per(5)
     end  
     
 
     if params[:search_title].present? && params[:search_status].present?
-      @tasks = Task.all.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page])
+      @tasks = current_user.tasks.search_title(params[:search_title]).search_status(params[:search_status]).page(params[:page])
     elsif params[:search_title].present?
-      @tasks = Task.all.search_title(params[:search_title]).page(params[:page])
+      @tasks = current_user.tasks.search_title(params[:search_title]).page(params[:page])
     elsif params[:search_status].present?
-      @tasks = Task.all.search_status(params[:search_status]).page(params[:page])
+      @tasks = current_user.tasks.search_status(params[:search_status]).page(params[:page])
     end
   end
 
@@ -34,11 +34,16 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    if @task.user == current_user
+      render "edit"
+    else
+      redirect_to tasks_path
+    end
   end
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     respond_to do |format|
       if @task.save
@@ -49,6 +54,11 @@ class TasksController < ApplicationController
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm
+    @task = current_user.tasks.build(task_params)
+    render :new if @task.invalid?
   end
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
@@ -68,7 +78,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
+      format.html { redirect_to tasks_url, notice: "削除に成功しました" }
       format.json { head :no_content }
     end
   end
@@ -81,6 +91,7 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :content, :expired_at, :status, :priority)
+      params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user)
     end
+    
 end
