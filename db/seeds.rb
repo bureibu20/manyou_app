@@ -7,3 +7,9 @@ User.create!(name: "kenya", email: "kenya@gmail.com", password: "123456", passwo
   password_confirmation = "1111111"
   User.create!(name: name, email: email, password: password, password_confirmation: password_confirmation, admin: false)
 end
+
+10.times do |n|
+  Label.create!(
+    name: "ラベル#{n + 1}"
+  )
+end

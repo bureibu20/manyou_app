@@ -7,8 +7,13 @@
   <%= form.label :'ステータス' %>
   <%= form.select :search_status, Task.statuses.keys.to_a, { include_blank: '選択してください'}, class: 'form-control' %>
   <br>
+  <%= form.label :'ラベル' %>
+  <%= form.select :label_id, Label.all.collect { |p| [ p.name, p.id ] }, { include_blank: "ラベル選択"} %>
+  <br>
+  <br>
   <%= form.submit '検索' , name: 'search', class:"btn btn-warning" %>
   <%= link_to 'Task一覧を確認する', tasks_path, class:"btn btn-info" %>
+  
 <% end %>
 <br>
 <div>
@@ -25,18 +30,21 @@
   <table>
     <thead>
       <tr>
+        <th>作成者</th>
         <th>タスク名</th>
         <th>内容</th>
         <th><%= link_to "終了期限▼",tasks_path(sort_expired: "true") %></th>
         <th>ステータス</th>
         <th><%= link_to "優先順位▼",tasks_path(sort_priority: "true") %></th>
         <th colspan="3"></th>
+        <th>ラベル</th>
       </tr>
     </thead>
 
     <tbody>
       <% @tasks.each do |task| %>
         <tr>
+          <td><%= task.user.name %></td>
           <td class="task_row"><%= task.title %></td>
           <td><%= task.content %></td>
           <td><%= task.expired_at %></td>
@@ -45,6 +53,11 @@
           <td><button type="button" class="btn btn-outline-primary"><%= link_to '詳細', task %></button></td>
           <td><button type="button" class="btn btn-outline-success"><%= link_to '編集', edit_task_path(task) %></button></td>
           <td><button type="button" class="btn btn-outline-primary"><%= link_to '削除', task, method: :delete, data: { confirm: '本当に削除しますか？' } %></button></td>
+          <td>
+            <% task.labels.each do |label| %>
+              <%= label.name %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

@@ -16,6 +16,13 @@
     <%= form.text_field :title %>
   </div>
 
+  <div>
+    <% Label.all.each do |label| %>
+      <%= form.check_box :label_ids, { multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false }, label[:id] %>
+      <%= label.name %>
+    <% end %>  
+  </div>
+
   <div class="field">
     <%= form.label :"内容" %>
     <%= form.text_area :content %>
@@ -35,6 +42,8 @@
     <%= form.label :"優先順位" %>
     <%= form.select :priority, Task.priorities.keys, class: "form-control" %>
   </div>
+
+ 
 
   <div class="actions">
     <%= form.submit %>

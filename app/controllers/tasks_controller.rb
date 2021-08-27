@@ -20,6 +20,8 @@ class TasksController < ApplicationController
       @tasks = current_user.tasks.search_title(params[:search_title]).page(params[:page])
     elsif params[:search_status].present?
       @tasks = current_user.tasks.search_status(params[:search_status]).page(params[:page])
+    elsif params[:label_id].present?
+      @tasks = current_user.tasks.(params[:label_id]).page(params[:page])
     end
   end
 
@@ -91,7 +93,7 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user)
+      params.require(:task).permit(:title, :content, :expired_at, :status, :priority, :user, { label_ids: [] } )
     end
     
 end
