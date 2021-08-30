@@ -128,8 +128,9 @@ describe '管理画面のテスト' do
     end
     it '管理ユーザはユーザの削除をできること' do
       visit admin_users_path
+      binding.irb
       all('.admin_index')[1].click_on '削除'
-      page.driver.browser.switch_to.alert.acceptheroku run rails db:migrate
+      page.driver.browser.switch_to.alert.accept
       expect(page).to have_content 'ユーザー情報を削除しました'
     end
   end

@@ -6,6 +6,13 @@
 </p>
 
 <p>
+  <strong>ラベル:</strong>
+  <% @task.labels.each do |label| %>
+    <%= label.name %>
+  <% end %>
+</p>
+
+<p>
   <strong>Content:</strong>
   <%= @task.content %>
 </p>
